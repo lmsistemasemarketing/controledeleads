@@ -507,6 +507,32 @@
         function printTable() {
             window.print();
         }
+        document.getElementById('leadForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const data = new URLSearchParams();
+
+    for (const pair of formData.entries()) {
+        data.append(pair[0], pair[1]);
+    }
+
+    fetch('https://script.google.com/macros/s/AKfycbzg3MD3yvUNK9X2QanjpU271_heUAjq6XhD5icu-5BOHclV6wRU6ZuWMDySsOv-3VaG0w/exec', {
+        method: 'POST',
+        body: data
+    })
+    .then(response => response.text())
+    .then(result => {
+        alert('Lead adicionado com sucesso!');
+        e.target.reset();
+        document.getElementById('dataContato').value = new Date().toISOString().split('T')[0];
+    })
+    .catch(error => {
+        alert('Erro ao adicionar lead!');
+        console.error('Erro:', error);
+    });
+});
+
     </script>
 </body>
 </html>
